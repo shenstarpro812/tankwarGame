@@ -22,8 +22,10 @@ public class TankWarGame {
         frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                super.keyPressed(e);
-                System.out.println((char)e.getKeyCode());
+
+                gameClinet.keyPressed(e);
+//                super.keyPressed(e);
+//                System.out.println((char)e.getKeyCode());
             }
 
             @Override

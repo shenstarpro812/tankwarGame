@@ -1,25 +1,39 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class GameClinet extends JComponent {
     private int screenWidth;
     private int screenHeight;
     private Tank playerTank;
 
+    private boolean stop;
+
     GameClinet(){
         this(800,600);
     }
-
     GameClinet(int screenWidth,int screenHeight){
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         init();
+
+        new Thread(()->{
+            while (!stop){
+                repaint();
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
     }
 
     //物件初始化
     public void init(){
-        playerTank = new Tank(680,115,Direction.DOWN);
+        playerTank = new Tank(680,115,Direction.DOWN,5);
     }
 
     //繪製
@@ -28,6 +42,26 @@ public class GameClinet extends JComponent {
         g.drawImage(playerTank.getImage(),
                 playerTank.getX(),playerTank.getY(),null);
     }
+    //控制
+    public void keyPressed(KeyEvent e){
+        boolean[] dirs =playerTank.getDirs();
+        switch (e.getKeyCode()){
+            case KeyEvent.VK_UP:
+                playerTank.setDirection(Direction.UP);
+                break;
+            case KeyEvent.VK_DOWN:
+                playerTank.setDirection(Direction.DOWN);
+                break;
+            case KeyEvent.VK_LEFT:
+                playerTank.setDirection(Direction.LEFT);
+                break;
+            case KeyEvent.VK_RIGHT:
+                playerTank.setDirection(Direction.RIGHT);
+                break;
+        }
+        playerTank.move();
+    }
+
 
     public int getScreenWidth() {
         return screenWidth;
