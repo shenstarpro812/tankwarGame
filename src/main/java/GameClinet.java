@@ -16,6 +16,12 @@ public class GameClinet extends JComponent {
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
     }
 
+    @Override
+    protected void paintComponent(Graphics g) {
+        g.drawImage(new ImageIcon("assets/images/itankD.png").getImage(),
+                715,120,null);
+    }
+
     public int getScreenWidth() {
         return screenWidth;
     }
@@ -31,4 +37,8 @@ public class GameClinet extends JComponent {
     public void setScreenHeight(int screenHeight) {
         this.screenHeight = screenHeight;
     }
+
+    private int getCenterScreenH(int screenHeight){ return this.screenHeight-screenHeight / 2; }
+
+    private int getCenterScreenW(int screenWidth){ return this.screenWidth-screenWidth / 2; }
 }
