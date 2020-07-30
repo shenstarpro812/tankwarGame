@@ -4,7 +4,7 @@ import java.awt.*;
 public class GameClinet extends JComponent {
     private int screenWidth;
     private int screenHeight;
-
+    private Tank playerTank;
 
     GameClinet(){
         this(800,600);
@@ -14,12 +14,19 @@ public class GameClinet extends JComponent {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
+        init();
     }
 
+    //物件初始化
+    public void init(){
+        playerTank = new Tank(680,115,Direction.DOWN);
+    }
+
+    //繪製
     @Override
     protected void paintComponent(Graphics g) {
-        g.drawImage(new ImageIcon("assets/images/itankD.png").getImage(),
-                715,120,null);
+        g.drawImage(playerTank.getImage(),
+                playerTank.getX(),playerTank.getY(),null);
     }
 
     public int getScreenWidth() {

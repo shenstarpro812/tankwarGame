@@ -18,6 +18,7 @@ public class TankWarGame {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameClinet.repaint();
 
+
         frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
