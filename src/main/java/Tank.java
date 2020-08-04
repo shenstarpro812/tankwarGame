@@ -9,14 +9,20 @@ public class Tank {
     private int y;
     private double speed;
     private Direction direction;
-
+    private boolean enemy;
     private boolean[] dirs = new boolean[4];
 
     public Tank(int x, int y, Direction direction,double speed) {
+        //Call 1
+        this(x,y,direction,speed,false);
+    }
+    //1
+    public Tank(int x, int y, Direction direction,double speed,boolean enemy) {
         this.x = x;
         this.y = y;
         this.speed = speed;
         this.direction = direction;
+        this.enemy = enemy;
     }
 
     public void move(){
@@ -55,22 +61,25 @@ public class Tank {
 
     //取得方向
     public Image getImage(){
+        //分類敵人與玩家物件
+        String p_Name = enemy? "etank":"itank";
+        
         if(direction==Direction.UP)
-            return new ImageIcon("assets/images/itankU.png").getImage();
+            return new ImageIcon("assets/images/"+p_Name+"U.png").getImage();
         if(direction==Direction.DOWN)
-            return new ImageIcon("assets/images/itankD.png").getImage();
+            return new ImageIcon("assets/images/"+p_Name+"D.png").getImage();
         if(direction==Direction.LEFT)
-            return new ImageIcon("assets/images/itankL.png").getImage();
+            return new ImageIcon("assets/images/"+p_Name+"L.png").getImage();
         if(direction==Direction.RIGHT)
-            return new ImageIcon("assets/images/itankR.png").getImage();
+            return new ImageIcon("assets/images/"+p_Name+"R.png").getImage();
         if(direction==Direction.UP_LEFT)
-            return new ImageIcon("assets/images/itankLU.png").getImage();
+            return new ImageIcon("assets/images/"+p_Name+"LU.png").getImage();
         if(direction==Direction.UP_RIGHT)
-            return new ImageIcon("assets/images/itankRU.png").getImage();
+            return new ImageIcon("assets/images/"+p_Name+"RU.png").getImage();
         if(direction==Direction.DOWN_LEFT)
-            return new ImageIcon("assets/images/itankLD.png").getImage();
+            return new ImageIcon("assets/images/"+p_Name+"LD.png").getImage();
         if(direction==Direction.DOWN_RIGHT)
-            return new ImageIcon("assets/images/itankRD.png").getImage();
+            return new ImageIcon("assets/images/"+p_Name+"RD.png").getImage();
         return null;
     }
     private void determineDirection(){
@@ -84,14 +93,6 @@ public class Tank {
         else if (!dirs[0] && !dirs[1] && dirs[2] && !dirs[3]){ direction = Direction.LEFT; }//左
         else if (!dirs[0] && !dirs[1] && !dirs[2] && dirs[3]){ direction = Direction.RIGHT; }//右
     }
-
-    public void draw(Graphics g) {
-        if(!isStop()) {
-            determineDirection();
-            move();
-        }
-        g.drawImage(getImage(),x ,y,null);
-    }
     public boolean isStop(){
         for (boolean dir : dirs){
             if(dir){
@@ -100,6 +101,15 @@ public class Tank {
         }
         return true;
     }
+
+    public void draw(Graphics g) {
+        if(!isStop()) {
+            determineDirection();
+            move();
+        }
+        g.drawImage(getImage(),x ,y,null);
+    }
+
 
 
     public int getX() {
