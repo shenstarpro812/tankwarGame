@@ -39,27 +39,46 @@ public class GameClinet extends JComponent {
     //繪製
     @Override
     protected void paintComponent(Graphics g) {
-        g.drawImage(playerTank.getImage(),
-                playerTank.getX(),playerTank.getY(),null);
+      playerTank.draw(g);
     }
-    //控制
+
+    /**
+     * 控制
+     * @param e 發生按下與放開事件
+     */
     public void keyPressed(KeyEvent e){
         boolean[] dirs =playerTank.getDirs();
         switch (e.getKeyCode()){
             case KeyEvent.VK_UP:
-                playerTank.setDirection(Direction.UP);
+                dirs[0] = true;
                 break;
             case KeyEvent.VK_DOWN:
-                playerTank.setDirection(Direction.DOWN);
+                dirs[1] = true;
                 break;
             case KeyEvent.VK_LEFT:
-                playerTank.setDirection(Direction.LEFT);
+                dirs[2] = true;
                 break;
             case KeyEvent.VK_RIGHT:
-                playerTank.setDirection(Direction.RIGHT);
+                dirs[3] = true;
                 break;
         }
-        playerTank.move();
+    }
+    public void keyReleased(KeyEvent e) {
+        boolean[] dirs =playerTank.getDirs();
+        switch (e.getKeyCode()){
+            case KeyEvent.VK_UP:
+                dirs[0] = false;
+                break;
+            case KeyEvent.VK_DOWN:
+                dirs[1] = false;
+                break;
+            case KeyEvent.VK_LEFT:
+                dirs[2] = false;
+                break;
+            case KeyEvent.VK_RIGHT:
+                dirs[3] = false;
+                break;
+        }
     }
 
 
@@ -82,4 +101,6 @@ public class GameClinet extends JComponent {
     private int getCenterScreenH(int screenHeight){ return this.screenHeight-screenHeight / 2; }
 
     private int getCenterScreenW(int screenWidth){ return this.screenWidth-screenWidth / 2; }
+
+
 }
