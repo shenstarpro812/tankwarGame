@@ -4,7 +4,7 @@ import java.awt.*;
 /**
  * Tank Object
  */
-public class Tank {
+public class Tank extends GameObject {
     private int x;
     private int y;
     private double speed;
@@ -12,12 +12,13 @@ public class Tank {
     private boolean enemy;
     private boolean[] dirs = new boolean[4];
 
-    public Tank(int x, int y, Direction direction,double speed) {
+    public Tank(int x, int y, Direction direction,double speed,Image image) {
         //Call 1
-        this(x,y,direction,speed,false);
+        this(x,y,direction,speed,false,image);
     }
     //1
-    public Tank(int x, int y, Direction direction,double speed,boolean enemy) {
+    public Tank(int x, int y, Direction direction,double speed,boolean enemy,Image image) {
+        super(x,y,image);   
         this.x = x;
         this.y = y;
         this.speed = speed;

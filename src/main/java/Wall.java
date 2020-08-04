@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Wall {
+public class Wall extends GameObject{
     private int x;
     private int y;
     //水平與垂直
@@ -10,13 +10,11 @@ public class Wall {
 
     private Image image;
 
-    public Wall(int x, int y, boolean horizonal, int bricks) {
-        this.x = x;
-        this.y = y;
+    public Wall(int x, int y, boolean horizonal, int bricks,Image image) {
+        super(x,y,image);
         this.horizonal = horizonal;
         this.bricks = bricks;
 
-        image = new ImageIcon("assets/images/brick.png").getImage();
     }
 
     public void draw(Graphics g){
