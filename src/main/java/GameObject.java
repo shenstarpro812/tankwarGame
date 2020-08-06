@@ -1,3 +1,5 @@
+import org.w3c.dom.css.Rect;
+
 import java.awt.*;
 
 /**
@@ -5,6 +7,8 @@ import java.awt.*;
  * 共同與相同屬性、方法
  */
 public abstract class GameObject {
+    protected int oldx;
+    protected int oldy;
     protected int x;
     protected int y;
     protected int width;
@@ -18,6 +22,10 @@ public abstract class GameObject {
         this.image = image;
         this.width =image[0].getWidth(null);
         this.height = image[0].getHeight(null);
+    }
+
+    public Rectangle getRectangle(){
+        return new Rectangle(x,y,width,height);
     }
 
     /**

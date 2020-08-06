@@ -25,6 +25,8 @@ public class Tank extends GameObject {
     }
 
     public void move(){
+        oldx = x;
+        oldy = y;
         switch (direction){
             case UP:
                 y-=speed;
@@ -54,8 +56,39 @@ public class Tank extends GameObject {
                 y+=speed;
                 x+=speed;
                 break;
-
         }
+    }
+
+    public void collision(){
+        //邊界檢測
+        if (x<0){
+            x=0;
+        }else if(x>TankWarGame.gameClient.getScreenWidth()-width){
+            x=TankWarGame.gameClient.getScreenWidth()-width;
+        }
+        if(y<0){
+            y=0;
+        }else if(y>TankWarGame.gameClient.getScreenHeight()-height){
+            y=TankWarGame.gameClient.getScreenHeight()-height;
+        }
+        //物件偵測
+        for(GameObject object:TankWarGame.gameClient.getObjects()){
+            if(object!=this){
+                if(getRectangle().intersects(object.getRectangle())){
+//                    if(((Wall)object).isHorizonal()){
+//                        x = oldx;
+//                        y = --oldy;
+//                    }else {
+//                        x= --oldx;
+//                        y = oldy;
+//                    }
+                    x = oldx;
+                    y = oldy;
+                    return;
+                }
+            }
+        }
+
     }
 
     //取得方向
@@ -106,6 +139,7 @@ public class Tank extends GameObject {
         if(!isStop()) {
             determineDirection();
             move();
+            collision();
         }
         g.drawImage(image[direction.ordinal()],x ,y,null);
     }

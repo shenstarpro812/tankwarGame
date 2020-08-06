@@ -7,12 +7,12 @@ import java.awt.event.KeyEvent;
  */
 public class TankWarGame {
 
-
+    public static GameClient gameClient;
 
     public static void main(String[] args) {
         //TankWar Star Game
         JFrame frame = new JFrame();
-        GameClient gameClient = new GameClient(1430,825);
+        gameClient = new GameClient(1430,825);
         frame.setTitle("TankWar - V1");
         frame.setResizable(false);
         frame.add(gameClient);

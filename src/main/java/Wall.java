@@ -18,7 +18,12 @@ public class Wall extends GameObject{
 
     }
 
-    
+    @Override
+    public Rectangle getRectangle() {
+        return horizonal?new Rectangle(x,y,bricks*width,height) :
+                new Rectangle(x,y,width,bricks*height);
+    }
+
     public void draw(Graphics g){
         if(horizonal){
             for (int i = 0; i < bricks; i++) {

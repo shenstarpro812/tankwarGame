@@ -155,6 +155,10 @@ public class GameClient extends JComponent {
         this.screenHeight = screenHeight;
     }
 
+    public List<GameObject> getObjects() {
+        return objects;
+    }
+
     private int getCenterScreenH(int screenHeight){ return this.screenHeight-screenHeight / 2; }
 
     private int getCenterScreenW(int screenWidth){ return this.screenWidth-screenWidth / 2; }
