@@ -2,22 +2,20 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Tank Object
+ * 坦克物件 (Tank Object)
  */
 public class Tank extends GameObject {
-    private int x;
-    private int y;
     private double speed;
     private Direction direction;
     private boolean enemy;
     private boolean[] dirs = new boolean[4];
 
-    public Tank(int x, int y, Direction direction,double speed,Image image) {
+    public Tank(int x, int y, Direction direction,double speed,Image[] image) {
         //Call 1
         this(x,y,direction,speed,false,image);
     }
     //1
-    public Tank(int x, int y, Direction direction,double speed,boolean enemy,Image image) {
+    public Tank(int x, int y, Direction direction,double speed,boolean enemy,Image[] image) {
         super(x,y,image);   
         this.x = x;
         this.y = y;
@@ -63,25 +61,26 @@ public class Tank extends GameObject {
     //取得方向
     public Image getImage(){
         //分類敵人與玩家物件
-        String p_Name = enemy? "etank":"itank";
-        
-        if(direction==Direction.UP)
-            return new ImageIcon("assets/images/"+p_Name+"U.png").getImage();
-        if(direction==Direction.DOWN)
-            return new ImageIcon("assets/images/"+p_Name+"D.png").getImage();
-        if(direction==Direction.LEFT)
-            return new ImageIcon("assets/images/"+p_Name+"L.png").getImage();
-        if(direction==Direction.RIGHT)
-            return new ImageIcon("assets/images/"+p_Name+"R.png").getImage();
-        if(direction==Direction.UP_LEFT)
-            return new ImageIcon("assets/images/"+p_Name+"LU.png").getImage();
-        if(direction==Direction.UP_RIGHT)
-            return new ImageIcon("assets/images/"+p_Name+"RU.png").getImage();
-        if(direction==Direction.DOWN_LEFT)
-            return new ImageIcon("assets/images/"+p_Name+"LD.png").getImage();
-        if(direction==Direction.DOWN_RIGHT)
-            return new ImageIcon("assets/images/"+p_Name+"RD.png").getImage();
-        return null;
+//        String p_Name = enemy? "etank":"itank";
+        //依序給予方向
+        return image[direction.ordinal()];
+//        if(direction==Direction.UP)
+//            return new ImageIcon("assets/images/"+p_Name+"U.png").getImage();
+//        if(direction==Direction.DOWN)
+//            return new ImageIcon("assets/images/"+p_Name+"D.png").getImage();
+//        if(direction==Direction.LEFT)
+//            return new ImageIcon("assets/images/"+p_Name+"L.png").getImage();
+//        if(direction==Direction.RIGHT)
+//            return new ImageIcon("assets/images/"+p_Name+"R.png").getImage();
+//        if(direction==Direction.UP_LEFT)
+//            return new ImageIcon("assets/images/"+p_Name+"LU.png").getImage();
+//        if(direction==Direction.UP_RIGHT)
+//            return new ImageIcon("assets/images/"+p_Name+"RU.png").getImage();
+//        if(direction==Direction.DOWN_LEFT)
+//            return new ImageIcon("assets/images/"+p_Name+"LD.png").getImage();
+//        if(direction==Direction.DOWN_RIGHT)
+//            return new ImageIcon("assets/images/"+p_Name+"RD.png").getImage();
+//        return null;
     }
     private void determineDirection(){
         // 1:上 , 2:下 , 3:左 , 4:右
@@ -108,7 +107,7 @@ public class Tank extends GameObject {
             determineDirection();
             move();
         }
-        g.drawImage(getImage(),x ,y,null);
+        g.drawImage(image[direction.ordinal()],x ,y,null);
     }
 
 

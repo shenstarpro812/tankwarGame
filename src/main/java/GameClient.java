@@ -5,20 +5,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GameClinet extends JComponent {
+/**
+ * 遊戲客戶端
+ * 遊戲控制端
+ */
+public class GameClient extends JComponent {
+
     private int screenWidth;
     private int screenHeight;
+
     private Tank playerTank;
     private List<Tank> enemyTanks = new ArrayList<>();
-    private  List<Wall> walls = new ArrayList<>();
     private List<GameObject> objects = new ArrayList<>();
 
     private boolean stop;
 
-    GameClinet(){
+    GameClient(){
         this(800,600);
     }
-    GameClinet(int screenWidth,int screenHeight){
+    GameClient(int screenWidth, int screenHeight){
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
@@ -26,6 +31,7 @@ public class GameClinet extends JComponent {
 
         new Thread(()->{
             while (!stop){
+                //重新繪製
                 repaint();
                 try {
                     Thread.sleep(50);
@@ -34,46 +40,64 @@ public class GameClinet extends JComponent {
                 }
             }
         }).start();
-
     }
 
     //物件初始化
     public void init(){
-        //2020/ 08 /04
-        //Player
-//        playerTank = new Tank(680,115,Direction.DOWN,5);
-//        //enemy
-//        for (int i = 0; i < 3; i++) {
-//            for (int j = 0; j < 4; j++) {
-//                enemyTanks.add(new Tank(560+j*80,500+i*80,Direction.UP,5,true));
-//            }
-//        }
-//        Wall[] walls ={
-//                new Wall(450,180,true,15,),
-//                new Wall(350,250,false,15),
-//                new Wall(1000,250,false,15)
-//
-//        };
+        Image[] brickImage = {Tools.getImage("brick.png")};
+        Image[] iTankImage = new Image[8];
+        Image[] eTankImage = new Image[8];
+
+        String[] subName ={"U.png","D.png","L.png","R.png","LU.png","RU.png","LD.png","RD.png"};
+
+        for (int i = 0; i < iTankImage.length; i++) {
+            iTankImage[i] = Tools.getImage("itank"+subName[i]);
+            eTankImage[i] = Tools.getImage("etank"+subName[i]);
+        }
+
+        //player
+        playerTank = new Tank(680,115,Direction.DOWN,5,iTankImage);
+        objects.add(playerTank);
+        //enemy
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                enemyTanks.add(new Tank(560+j*80,500+i*80,Direction.UP,5,true,eTankImage));
+                objects.addAll(enemyTanks);
+            }
+        }
+        //Wall
+        Wall[] walls ={
+                new Wall(450,180,true,15,brickImage),
+                new Wall(350,250,false,15,brickImage),
+                new Wall(1000,250,false,15,brickImage)
+        };
+        objects.addAll(Arrays.asList(walls));
+
     }
 
     //繪製
     @Override
     protected void paintComponent(Graphics g) {
-      playerTank.draw(g);
-      //enemy
-      for (Tank enemy:enemyTanks){
-          enemy.draw(g);
-      }
-      //Wall
-      for (Wall wall : walls){
-          wall.draw(g);
-      }
+
+        for (GameObject object:objects) {
+            object.draw(g);
+        }
+        
+//      playerTank.draw(g);
+//      //enemy
+//      for (Tank enemy:enemyTanks){
+//          enemy.draw(g);
+//      }
+//      //Wall
+//      for (Wall wall : walls){
+//          wall.draw(g);
+//      }
 
     }
 
     /**
-     * 控制
-     * @param e 發生按下與放開事件
+     * TankWarGame源
+     * @param e 取得被傳入的按鍵
      */
     public void keyPressed(KeyEvent e){
         boolean[] dirs =playerTank.getDirs();
@@ -109,6 +133,10 @@ public class GameClinet extends JComponent {
                 break;
         }
     }
+
+
+
+
 
 
     public int getScreenWidth() {
