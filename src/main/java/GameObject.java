@@ -13,6 +13,7 @@ public abstract class GameObject {
     protected int y;
     protected int width;
     protected int height;
+    protected boolean alive;
 
     protected Image[] image;
 
@@ -22,6 +23,7 @@ public abstract class GameObject {
         this.image = image;
         this.width =image[0].getWidth(null);
         this.height = image[0].getHeight(null);
+        this.alive = true;
     }
 
     public Rectangle getRectangle(){

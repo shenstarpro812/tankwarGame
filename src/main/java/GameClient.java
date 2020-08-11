@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -10,7 +11,8 @@ import java.util.List;
  * 遊戲控制端
  */
 public class GameClient extends JComponent {
-
+    //子彈Img
+    public static Image[] bulletImage = new Image[8];
     private int screenWidth;
     private int screenHeight;
 
@@ -53,10 +55,11 @@ public class GameClient extends JComponent {
         for (int i = 0; i < iTankImage.length; i++) {
             iTankImage[i] = Tools.getImage("itank"+subName[i]);
             eTankImage[i] = Tools.getImage("etank"+subName[i]);
+            bulletImage[i] = Tools.getImage("missile"+subName[i]);
         }
 
         //player
-        playerTank = new Tank(680,115,Direction.DOWN,5,iTankImage);
+        playerTank = new Tank(680,115,Direction.DOWN,8,iTankImage);
         objects.add(playerTank);
         //enemy
         for (int i = 0; i < 3; i++) {
@@ -69,7 +72,9 @@ public class GameClient extends JComponent {
         Wall[] walls ={
                 new Wall(450,180,true,15,brickImage),
                 new Wall(350,250,false,15,brickImage),
-                new Wall(1000,250,false,15,brickImage)
+                new Wall(1000,250,false,15,brickImage),
+                new Wall(550,300,true,5,brickImage),
+                new Wall(850,300,false,5,brickImage)
         };
         objects.addAll(Arrays.asList(walls));
 
@@ -78,20 +83,19 @@ public class GameClient extends JComponent {
     //繪製
     @Override
     protected void paintComponent(Graphics g) {
-
+        g.setColor(Color.BLACK);
+        g.fillRect(0,0,getScreenWidth(),getScreenHeight());
         for (GameObject object:objects) {
             object.draw(g);
         }
-        
-//      playerTank.draw(g);
-//      //enemy
-//      for (Tank enemy:enemyTanks){
-//          enemy.draw(g);
-//      }
-//      //Wall
-//      for (Wall wall : walls){
-//          wall.draw(g);
-//      }
+        Iterator<GameObject> iterator = objects.iterator();
+        while (iterator.hasNext()){
+            if(!(iterator.next()).alive){
+                iterator.remove();
+            }
+        }
+        System.out.println(objects.size());
+
 
     }
 
@@ -113,6 +117,9 @@ public class GameClient extends JComponent {
                 break;
             case KeyEvent.VK_RIGHT:
                 dirs[3] = true;
+                break;
+            case KeyEvent.VK_CONTROL:
+                playerTank.firing();
                 break;
         }
     }
@@ -138,6 +145,7 @@ public class GameClient extends JComponent {
 
 
 
+    public void addGameObject(GameObject object){objects.add(object);}
 
     public int getScreenWidth() {
         return screenWidth;

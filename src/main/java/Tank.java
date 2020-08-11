@@ -4,10 +4,9 @@ import java.awt.*;
 /**
  * 坦克物件 (Tank Object)
  */
-public class Tank extends GameObject {
-    private double speed;
-    private Direction direction;
-    private boolean enemy;
+public class Tank extends MoveObject {
+
+    protected boolean enemy;
     private boolean[] dirs = new boolean[4];
 
     public Tank(int x, int y, Direction direction,double speed,Image[] image) {
@@ -16,47 +15,11 @@ public class Tank extends GameObject {
     }
     //1
     public Tank(int x, int y, Direction direction,double speed,boolean enemy,Image[] image) {
-        super(x,y,image);   
+        super(x,y,direction,speed,enemy,image);
         this.x = x;
         this.y = y;
-        this.speed = speed;
         this.direction = direction;
         this.enemy = enemy;
-    }
-
-    public void move(){
-        oldx = x;
-        oldy = y;
-        switch (direction){
-            case UP:
-                y-=speed;
-                break;
-            case DOWN:
-                y+=speed;
-                break;
-            case LEFT:
-                x-=speed;
-                break;
-            case RIGHT:
-                x+=speed;
-                break;
-            case UP_LEFT:
-                y-=speed;
-                x-=speed;
-                break;
-            case UP_RIGHT:
-                y-=speed;
-                x+=speed;
-                break;
-            case DOWN_LEFT:
-                y+=speed;
-                x-=speed;
-                break;
-            case DOWN_RIGHT:
-                y+=speed;
-                x+=speed;
-                break;
-        }
     }
 
     public void collision(){
@@ -144,6 +107,13 @@ public class Tank extends GameObject {
         g.drawImage(image[direction.ordinal()],x ,y,null);
     }
 
+    //Features
+    public void firing(){
+        Bullet bullet = new Bullet(((x+width/2)-(GameClient.bulletImage[0].getWidth(null)/2)),
+                (y+height/2)-(GameClient.bulletImage[0].getHeight(null)/2),direction,20,enemy,GameClient.bulletImage);
+        TankWarGame.gameClient.addGameObject(bullet);
+    }
+
 
 
     public int getX() {
@@ -170,13 +140,6 @@ public class Tank extends GameObject {
         this.direction = direction;
     }
 
-    public double getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(double speed) {
-        this.speed = speed;
-    }
 
     public boolean[] getDirs() {
         return dirs;
