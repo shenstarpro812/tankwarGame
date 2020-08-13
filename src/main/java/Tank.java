@@ -116,6 +116,10 @@ public class Tank extends MoveObject {
         Bullet bullet = new Bullet(((x+width/2)-(GameClient.bulletImage[0].getWidth(null)/2)),
                 (y+height/2)-(GameClient.bulletImage[0].getHeight(null)/2),direction,15,enemy,GameClient.bulletImage);
         TankWarGame.gameClient.addGameObject(bullet);
+        //播放音效只屬於玩家
+        if(!enemy){
+            Tools.playAudio("shoot.wav");
+        }
     }
 
 

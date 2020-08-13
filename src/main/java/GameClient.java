@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -19,14 +20,15 @@ public class GameClient extends JComponent {
     private int screenHeight;
     private CopyOnWriteArrayList<GameObject> objects = new CopyOnWriteArrayList<>();
     private PlayerTank playerTank;
-
     private boolean stop;
+    private boolean gameOver;
 
     GameClient() {
         this(800, 600);
     }
 
     GameClient(int screenWidth, int screenHeight) {
+        com.sun.javafx.application.PlatformImpl.startup(()->{});
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -47,6 +49,8 @@ public class GameClient extends JComponent {
 
     //物件初始化
     public void init() {
+        gameOver = false;
+        objects.clear();
         Image[] brickImage = {Tools.getImage("brick.png")};
         Image[] iTankImage = new Image[8];
         Image[] eTankImage = new Image[8];
@@ -97,6 +101,15 @@ public class GameClient extends JComponent {
                 objects.remove(object);
             }
         }
+        checkGameStatus();
+        if(gameOver){
+            g.setFont(new Font(null, Font.BOLD,100));
+            g.setColor(Color.RED);
+            g.drawString("GAME OVER",400,100);
+            g.setFont(new Font(null, Font.BOLD,50));
+            g.setColor(Color.WHITE);
+            g.drawString("PRESS    F2     TO      RESTART",350,450);
+        }
 
 //        Iterator<GameObject> iterator = objects.iterator();
 //        while (iterator.hasNext()){
@@ -130,11 +143,17 @@ public class GameClient extends JComponent {
                 dirs[3] = true;
                 break;
             case KeyEvent.VK_CONTROL:
-                playerTank.firing();
+                if (!gameOver)
+                    playerTank.firing();
                 break;
             case KeyEvent.VK_A:
-                playerTank.superFire();
+                if (!gameOver)
+                    playerTank.superFire();
                 break;
+            case KeyEvent.VK_F2:
+                init();
+                break;
+
         }
     }
 
@@ -154,6 +173,17 @@ public class GameClient extends JComponent {
                 dirs[3] = false;
                 break;
         }
+    }
+
+    public void checkGameStatus(){
+        if(gameOver){
+            return;
+        }
+        if(!playerTank.alive){
+            gameOver=true;
+            return;
+        }
+
     }
 
 

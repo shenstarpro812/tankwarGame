@@ -7,6 +7,7 @@ public class Explosion extends GameObject{
 
     public Explosion(int x, int y, Image[] image) {
         super(x, y, image);
+        Tools.playAudio("explode.wav");
         new Thread(()->{
             while (alive){
                 try {
