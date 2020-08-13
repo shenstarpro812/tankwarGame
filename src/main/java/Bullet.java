@@ -37,15 +37,15 @@ public class Bullet extends MoveObject {
     }
 
     @Override
-    public void collision() {
+    public boolean collision() {
         if (collisionBound()) {
             alive = false;
-            return;
+            return true;
         }
 
         //物件偵測
         for (GameObject object : TankWarGame.gameClient.getObjects()) {
-            if (object == this) {
+            if (object == this || object instanceof Bullet || object instanceof Explosion) {
                 continue;
             }
             //偵測坦克
@@ -60,8 +60,12 @@ public class Bullet extends MoveObject {
                 if(object instanceof Tank){
                     object.alive = false;
                 }
-                return;
+                //產生爆炸效果
+                TankWarGame.gameClient.addGameObject(new Explosion(x+((GameClient.explosionImage[0].getWidth(null)-width)/2),
+                        y+((GameClient.explosionImage[0].getHeight(null)-height)/2),GameClient.explosionImage));
+                return true;
             }
         }
+        return false;
     }
 }

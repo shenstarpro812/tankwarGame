@@ -5,6 +5,9 @@ public abstract class MoveObject extends GameObject{
     protected Direction direction;
     protected boolean enemy;
 
+    public MoveObject(int x, int y, Image[] image) {
+        super(x, y,image);
+    }
     public MoveObject(int x, int y, Direction direction,double speed,boolean enemy,Image[] image) {
         super(x,y,image);
         this.x = x;
@@ -13,6 +16,7 @@ public abstract class MoveObject extends GameObject{
         this.direction = direction;
         this.enemy = enemy;
     }
+
 
     public void move(){
         oldx = x;
@@ -68,7 +72,7 @@ public abstract class MoveObject extends GameObject{
         return collisionStaut;
     }
 
-    public abstract void collision();
+    public abstract boolean collision();
 
 
     public void draw(Graphics g) {

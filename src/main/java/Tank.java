@@ -7,7 +7,7 @@ import java.awt.*;
 public class Tank extends MoveObject {
 
     protected boolean enemy;
-    private boolean[] dirs = new boolean[4];
+    protected boolean[] dirs = new boolean[4];
 
     public Tank(int x, int y, Direction direction,double speed,Image[] image) {
         //Call 1
@@ -22,17 +22,21 @@ public class Tank extends MoveObject {
         this.enemy = enemy;
     }
 
-    public void collision(){
+    public boolean collision(){
         //邊界檢測
         if (x<0){
             x=0;
+            return true;
         }else if(x>TankWarGame.gameClient.getScreenWidth()-width){
             x=TankWarGame.gameClient.getScreenWidth()-width;
+            return true;
         }
         if(y<0){
             y=0;
+            return true;
         }else if(y>TankWarGame.gameClient.getScreenHeight()-height){
             y=TankWarGame.gameClient.getScreenHeight()-height;
+            return true;
         }
         //物件偵測
         for(GameObject object:TankWarGame.gameClient.getObjects()){
@@ -47,11 +51,11 @@ public class Tank extends MoveObject {
 //                    }
                     x = oldx;
                     y = oldy;
-                    return;
+                    return true;
                 }
             }
         }
-
+        return false;
     }
 
     //取得方向
@@ -79,7 +83,7 @@ public class Tank extends MoveObject {
 //        return null;
     }
     private void determineDirection(){
-        // 1:上 , 2:下 , 3:左 , 4:右
+        // 0:上 , 1:下 , 2:左 , 3:右
         if(dirs[0] && !dirs[1] && !dirs[2] && !dirs[3]) { direction = Direction.UP; }//上
         else if (dirs[0] && !dirs[1] && dirs[2] && !dirs[3]){ direction = Direction.UP_LEFT; }//上左
         else if (dirs[0] && !dirs[1] && !dirs[2] && dirs[3]){ direction = Direction.UP_RIGHT; }//上右
@@ -110,7 +114,7 @@ public class Tank extends MoveObject {
     //Features
     public void firing(){
         Bullet bullet = new Bullet(((x+width/2)-(GameClient.bulletImage[0].getWidth(null)/2)),
-                (y+height/2)-(GameClient.bulletImage[0].getHeight(null)/2),direction,20,enemy,GameClient.bulletImage);
+                (y+height/2)-(GameClient.bulletImage[0].getHeight(null)/2),direction,15,enemy,GameClient.bulletImage);
         TankWarGame.gameClient.addGameObject(bullet);
     }
 
