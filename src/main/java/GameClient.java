@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
+ * by Shenstar
  * 遊戲客戶端
  * 遊戲控制端
  */

@@ -7,6 +7,7 @@ import java.io.File;
 
 
 /**
+ * by Shenstar
  * 工具類別
  * 取用共同方法與方式
  */
